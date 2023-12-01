@@ -30,12 +30,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: GlobalStyles.PADDING,
   },
-  titleTxt: {
-    fontSize: GlobalStyles.fs12,
-    fontWeight: GlobalStyles.fw200,
-    color: '#fff',
-    width: GlobalStyles.DEVICE_WIDTH / 6,
-  },
   addTxt: {
     fontSize: GlobalStyles.fs12,
     fontWeight: GlobalStyles.fw700,
@@ -54,10 +48,5 @@ const styles = StyleSheet.create({
     fontSize: GlobalStyles.fs18,
     fontWeight: '600',
     color: 'grey',
-  },
-  avatar: {
-    height: GlobalStyles.PADDING * 1.2,
-    width: GlobalStyles.PADDING * 1.2,
-    borderRadius: GlobalStyles.PADDING / 2,
   },
 });
