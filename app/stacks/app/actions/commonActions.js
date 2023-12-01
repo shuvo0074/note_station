@@ -1,8 +1,15 @@
-import {TYPES} from '../../../const/types';
+import { TYPES } from '../../../const/types';
 
 export const addNote = item => {
   return {
     type: TYPES.HOME.ADD_NOTES,
+    payload: item,
+  };
+};
+
+export const editNote = item => {
+  return {
+    type: TYPES.HOME.EDIT_NOTES,
     payload: item,
   };
 };

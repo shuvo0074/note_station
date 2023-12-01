@@ -6,7 +6,7 @@
  * @flow strict-local
  */
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import type { Node } from 'react';
 import {
   View,
@@ -21,10 +21,10 @@ import GlobalStyles from '../../../style';
 import CustomTextInput from '../../../components/common/CustomTextInput';
 import SubmitButton from '../../../components/common/SubmitButton';
 import { PATHS } from '../../../const/paths';
-import { addNote, checkValidityForInput } from '../actions/commonActions';
+import { addNote, checkValidityForInput, editNote } from '../actions/commonActions';
 import { assets } from '../../../assets';
 
-const AddNote: () => Node = ({ navigation }) => {
+const AddNote: () => Node = ({ navigation, route }) => {
   const isDarkMode = useColorScheme() === 'dark';
   const dispatch = useDispatch();
 
@@ -34,6 +34,14 @@ const AddNote: () => Node = ({ navigation }) => {
   const backgroundStyle = {
     backgroundColor: '#0c1955',
   };
+
+  useEffect(_ => {
+    if (route.params) {
+      setTitle(route.params.itemValue.title)
+      setdescription(route.params.itemValue.description)
+    }
+  }, [route.params])
+
 
   return (
     <View style={backgroundStyle}>
@@ -63,10 +71,19 @@ const AddNote: () => Node = ({ navigation }) => {
         />
 
         <SubmitButton
-          title="Add Note"
+          title={
+            route.params ?
+              "Edit Note"
+              : "Add a Note"
+          }
           disabled={!title.length}
           onPress={() => {
-            dispatch(addNote({
+            if (route.params) {
+              dispatch(editNote({
+                title, description, id: route.params.itemValue.id
+              }));
+            }
+            else dispatch(addNote({
               title, description
             }));
             navigation.navigate(PATHS.Home);
@@ -78,18 +95,8 @@ const AddNote: () => Node = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  titleRequiredMark: {
-    fontSize: 25,
-    color: 'red',
-  },
   bgImage: {
     height: GlobalStyles.DEVICE_HEIGHT,
-  },
-  flexRow: {
-    flexDirection: 'row',
-    width: GlobalStyles.DEVICE_WIDTH,
-    paddingHorizontal: GlobalStyles.PADDING,
-    justifyContent: 'space-between',
   },
   bgContainer: {
     paddingHorizontal: GlobalStyles.PADDING,
@@ -99,34 +106,6 @@ const styles = StyleSheet.create({
   },
   textInputStyle: {
     marginBottom: GlobalStyles.PADDING,
-  },
-  bottomText: {
-    color: GlobalStyles.COLOR_SUBMIT,
-    marginTop: GlobalStyles.PADDING,
-    textDecorationLine: 'underline',
-    textDecorationColor: GlobalStyles.COLOR_SUBMIT,
-  },
-  titleTxt: {
-    fontSize: GlobalStyles.fs20,
-    color: GlobalStyles.COLOR_GREY,
-  },
-  dropdown: {
-    height: 50,
-    borderColor: '#3267F0',
-    borderWidth: 0.5,
-    borderRadius: 12,
-    paddingHorizontal: 8,
-    width: GlobalStyles.DEVICE_WIDTH / 2 - 40,
-    height: 62,
-    marginTop: 10,
-  },
-  selectedTextStyle: {
-    fontSize: GlobalStyles.fs16,
-    color: GlobalStyles.COLOR_GREY,
-  },
-  iconStyle: {
-    width: 20,
-    height: 20,
   },
 });
 
