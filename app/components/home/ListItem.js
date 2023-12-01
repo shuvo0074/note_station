@@ -14,12 +14,13 @@ export default function ListItem() {
       {notesList
         .map((item, index) => (
           <TouchableOpacity
+            key={index}
             onPress={() => {
               navigate(PATHS.AddNote, { itemValue: item })
             }}
             style={styles.itemContainer}>
             <View style={styles.detailsCard}>
-              <View key={index} style={styles.note}>
+              <View style={styles.note}>
                 <View style={styles.noteHeader}>
                   <Text style={styles.itemName}>{item.title}: </Text>
                   <Text style={styles.descTxt}>{item.description}</Text>
@@ -28,12 +29,25 @@ export default function ListItem() {
             </View>
           </TouchableOpacity>
         ))}
+      {
+        !notesList.length ?
+
+          <View style={styles.emptyList}>
+            <Text style={styles.itemName}>You have nothing to read yet! </Text>
+          </View>
+          : null
+      }
     </>
 
   );
 }
 
 const styles = StyleSheet.create({
+  emptyList: {
+    height: GlobalStyles.FULL_HEIGHT/ 1.5,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   itemContainer: {
     backgroundColor: 'transparent',
     width: GlobalStyles.DEVICE_WIDTH,
